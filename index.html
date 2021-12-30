@@ -1,0 +1,44 @@
+<div style="display: flex;" class="row">
+    <div id="title" style="flex: 50%;" class="column">Title</div>
+    <div id="price" style="flex: 50%;" class="column">Price</div>
+  </div>
+<script>
+
+    let arr = [];
+
+    fetch('https://s3.amazonaws.com/open-to-cors/assignment.json')
+    .then((data) => {
+        const myData = data.json()
+        return myData;
+    }).then((actualData) => {
+        const myprod = actualData.products;
+        sortArr(myprod)
+        
+        for(let i = 0; i < arr.length; i++){
+            const arrObj = arr[i];
+
+            var para = document.createElement("p");
+            para.innerHTML =  arrObj.title;
+            document.getElementById("title").appendChild(para);
+
+            var prices = document.createElement("p");
+            prices.innerHTML =  arrObj.price;
+            document.getElementById("price").appendChild(prices);
+        }
+    }).catch((err) => {
+        console.log(err);
+    });
+
+    const sortArr = (myprod) => {
+        for(let key in myprod){
+            arr.push(myprod[key]);
+            arr.sort((a,b) => {
+                return b["popularity"] - a["popularity"]
+            })
+        }
+    }
+
+
+    
+
+</script>
